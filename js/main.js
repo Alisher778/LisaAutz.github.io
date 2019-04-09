@@ -124,21 +124,15 @@ Matter.World.add(world, mConstraint);
 
 
 
-Matter.Events.on(mConstraint, 'mousedown', function (event) {
-  var foundObject = Query.point(linkBodies, event.mouse.position);
-  
-  if (mConstraint.body == null) {
-    console.log('Body is null',mConstraint);
-    // a.force = { x: 0, y: -17.5 };
-
-  } else {
-    if (mConstraint.body.label != null) {
-     let a = mConstraint.body;
-
-      let {x,y} = a.position;
+Matter.Events.on(mConstraint, 'mousemove', function (event) {
+  var foundObject = Query.point([...linkBodies, ...fillers], event.mouse.position)[0];
+ 
+    if (foundObject) {
+      foundObject.force = { x: 0, y: 0 };
+      let {x,y} = foundObject.position;
      
       // Current pop-up
-      var currentEl = document.getElementById(a.label);
+      var currentEl = document.getElementById(foundObject.label);
       // Find popups margin-left
       var currentElMarginLeft =  window.getComputedStyle(document.querySelector('.pop-up')).marginLeft
       // Pop-up left(x) origin
@@ -148,44 +142,37 @@ Matter.Events.on(mConstraint, 'mousedown', function (event) {
       
       
       // For popup content
-      if(a.label === 'me') {
+      if(foundObject.label === 'me') {
        currentEl.style.display = 'block';
        currentEl.style.cssText = 'transform-origin:'+(leftOrigin)+'px '+(topOrigin)+'px; transform:scale(1);transition: transform 1s ease-in-out;';
-        //currentEl.className += ' animated fadeInDown fast';
         mConstraint.body = null;
-      } else if(a.label === 'everyone-in') {
+      } else if(foundObject.label === 'everyone-in') {
         currentEl.style.display = 'block';
         currentEl.style.cssText = 'transform-origin:'+(leftOrigin)+'px '+(topOrigin)+'px; transform:scale(1);transition: transform 1s ease-in-out;';
-        // currentEl.className += ' animated fadeInDown fast';
         mConstraint.body = null;
-      } else if(a.label === 'safe-clean-water') {
+      } else if(foundObject.label === 'safe-clean-water') {
         currentEl.style.display = 'block';
         currentEl.style.cssText = 'transform-origin:'+(leftOrigin)+'px '+(topOrigin)+'px; transform:scale(1);transition: transform 1s ease-in-out;';
 
-        // currentEl.className += ' animated fadeInDown fast';
         mConstraint.body = null;
-      } else if(a.label === 'iam-2018') {
+      } else if(foundObject.label === 'iam-2018') {
        currentEl.style.display = 'block';
        currentEl.style.cssText = 'transform-origin:'+(leftOrigin)+'px '+(topOrigin)+'px; transform:scale(1);transition: transform 1s ease-in-out;';
 
-        //currentEl.className += ' animated fadeInDown fast';
         mConstraint.body = null;
-      } else if(a.label === 'music') {
+      } else if(foundObject.label === 'music') {
         currentEl.style.display = 'block';
         currentEl.style.cssText = 'transform-origin:'+(leftOrigin)+'px '+(topOrigin)+'px; transform:scale(1);transition: transform 1s ease-in-out;';
 
-        // currentEl.className += ' animated fadeInDown fast';
         mConstraint.body = null;
-      } else if(a.label === 'testimonials') {
+      } else if(foundObject.label === 'testimonials') {
         currentEl.style.display = 'block';
         currentEl.style.cssText = 'transform-origin:'+(leftOrigin)+'px '+(topOrigin)+'px; transform:scale(1);transition: transform 1s ease-in-out;';
 
-        // currentEl.className += ' animated fadeInDown fast';
         mConstraint.body = null;
       }  else {
-        a.force = { x: 0, y: -17.5 };
-
+        foundObject.force = { x: 0, y: -3 };
       }
     }
-  }
+  // }
 });
